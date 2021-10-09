@@ -1,12 +1,12 @@
 import sboxes as sb
 
-def main():
-    ip_bits=[]
+def main(m):
+    ip_m=[]
     
     #Almacenamos la ip del mensaje en una lista [paso ip(m)]
     for i in ip:
-        ip_bits.append(bits[i-1])
-    return ip_bits
+        ip_m.append(m[i-1])
+    return ip_m
     
 #Función para mostrar la sbox 1
 def sbox_1():
@@ -120,23 +120,25 @@ if __name__=="__main__":
     p4=sb.p4()
     
     #se coloca primero como String para que detecte en caso de existir "0" a la izquierda
-    bits="0"
-    while((len(bits))!=8):
-        bits=input("Inserta los 8 bits: ")
+    m="0"
+    while((len(m))!=8):
+        m=input("Inserta los 8 bits del mensaje: ")
         
     #Convertimos el String a una lista
-    bits=list(bits)
+    m=list(m)
     
     #Con este ciclo convertimos cada valor en entero
-    for i in range(len(bits)):
-        bits[i]=int(bits[i])
+    for i in range(len(m)):
+        m[i]=int(m[i])
         
     print("\n\nTrabajaremos con las siguientes s-boxes y la siguiente IP")
     sbox_1()
     sbox_2()
     ip_normal()
     
-    ip_m=main()
+    print("-----------------------------------------------------------------------")
+    
+    ip_m=main(m)
     print("\nIP(M)")
     print(ip_m,"\n")
     
