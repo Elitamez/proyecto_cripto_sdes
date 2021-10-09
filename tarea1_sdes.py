@@ -4,9 +4,8 @@ def main():
     ip_bits=[]
     
     #Almacenamos la ip del mensaje en una lista [paso ip(m)]
-    for i in range(len(ip)):
-        temp=ip.index(i+1)
-        ip_bits.append(bits[temp])
+    for i in ip:
+        ip_bits.append(bits[i-1])
     return ip_bits
     
 #Función para mostrar la sbox 1
@@ -48,10 +47,68 @@ def inicio_xor(ip_m, sk):
             xor_e_sk.append(1)
     return xor_e_sk
 
+#iniciamos el proceso con las s-boxes
 def inicio_sboxes(xor):
+    #Convertimos los datos a str para poder realizar la comparación sin problema
     for i in range(len(xor)):
         xor[i]=str(xor[i])
-    print(xor)
+    parteIzq=xor[:4]
+    parteDer=xor[4:]
+    
+    #Crearemos nuevas listas con la primera fila y columna de las sboxes para hacer la comparación
+    columna_s1=[]
+    fila_s1=[]
+    columna_s2=[]
+    fila_s2=[]
+    for i in range(4):
+        columna_s1.append(sb1[i+1][0])
+        fila_s1.append(sb1[0][i+1])
+        columna_s2.append(sb2[i+1][0])
+        fila_s2.append(sb2[0][i+1])
+    
+    #Ciclo para obtener el indice de la columna en la sbox lado izquierdo
+    for i in columna_s1:
+        if (parteIzq[0]==i[0]) and (parteIzq[3]==i[1]):
+            x_izq=columna_s1.index(i)
+    x_izq=x_izq+1
+    #print(x_izq)
+
+    #Ciclo para obtener el indice de la fila en la sbox lado izquierdo
+    for i in fila_s1:
+        if(parteIzq[1]==i[0]) and (parteIzq[2]==i[1]):
+            y_izq=fila_s1.index(i)
+    y_izq=y_izq+1
+    #print(y_izq)
+    
+    #Ciclo para obtener el indice de la columna en la sbox lado derecho
+    for i in columna_s2:
+        if (parteDer[0]==i[0]) and (parteDer[3]==i[1]):
+            x_der=columna_s2.index(i)
+    x_der=x_der+1
+    #print(x_der)
+    
+    #Ciclo para obtener el indice de la fila en la sbox lado derecho
+    for i in fila_s2:
+        if (parteDer[1]==i[0]) and (parteDer[2]==i[1]):
+            y_der=fila_s2.index(i)
+    y_der=y_der+1
+    #print(y_der)
+
+    l_1=sb1[x_izq][y_izq]
+    r_1=sb2[x_der][y_der]
+    
+    z=str(l_1+r_1)
+    z=list(z)
+    #print(z)
+    
+    #Comenzamos a aplicar el p4 a la z para después realizar el xor con el lado izquierdo
+    z_p4=[]
+    for i in p4:
+        z_p4.append(z[i-1])
+    return z_p4
+    
+def xor_final(z_p4, ip_m):
+    pass
     
 if __name__=="__main__":
     #Almacenamos las sboxes, la ip y las sk
@@ -60,6 +117,7 @@ if __name__=="__main__":
     ip=sb.ip()
     sk1=sb.sk1()
     sk2=sb.sk2()
+    p4=sb.p4()
     
     #se coloca primero como String para que detecte en caso de existir "0" a la izquierda
     bits="0"
@@ -86,4 +144,7 @@ if __name__=="__main__":
     xor=inicio_xor(ip_m,sk1)
     print("xor\t",xor)
     
-    inicio_sboxes(xor)
+    z_p4=inicio_sboxes(xor)
+    print("\nP4(z)\t",z_p4,"\n")
+    
+    xor_final(z_p4, ip_m)    
