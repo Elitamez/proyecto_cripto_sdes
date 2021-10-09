@@ -1,11 +1,20 @@
-a=[0]
+sbox=[0]
 s1=[]
 s2=[]
+p_4=[]
+ip_1=[7, 5, 3, 1, 2, 4, 6, 8]
+sk_1=[1, 0, 0, 1, 1, 1, 0, 0]
+sk_2=[1, 1, 0, 0, 0, 0, 1, 1]
 
+#formando las matrices
 for i in range (5):
-    s1.append(a*5)
-    s2.append(a*5)
+    s1.append(sbox*5)
+    s2.append(sbox*5)
+    
+#Definiendo el orden del p4
+p_4=[2, 4, 3 , 1]
 
+#Llenando la sbox 1 (izquierda)
 s1[0][0]="S1"
 s1[0][1]="00"
 s1[0][2]="01"
@@ -36,7 +45,53 @@ s1[4][1]="00"
 s1[4][2]="01"
 s1[4][3]="11"
 s1[4][4]="10"
-for i in range (len(s1)):
-    for j in range(len(s1)):
-        print(s1[i][j], end="\t")
-    print()
+
+#Llenando la sbox 2
+s2[0][0]="S2"
+s2[0][1]="00"
+s2[0][2]="01"
+s2[0][3]="10"
+s2[0][4]="11"
+
+s2[1][0]="00"
+s2[2][0]="01"
+s2[3][0]="10"
+s2[4][0]="11"
+
+s2[1][1]="00"
+s2[1][2]="01"
+s2[1][3]="10"
+s2[1][4]="11"
+
+s2[2][1]="10"
+s2[2][2]="00"
+s2[2][3]="01"
+s2[2][4]="11"
+
+s2[3][1]="11"
+s2[3][2]="00"
+s2[3][3]="01"
+s2[3][4]="10"
+
+s2[4][1]="10"
+s2[4][2]="01"
+s2[4][3]="00"
+s2[4][4]="11"
+     
+def sb1():
+    return s1
+
+def sb2():
+    return s2
+
+def p4():
+    return p_4
+
+def ip():
+    return ip_1
+
+def sk1():
+    return sk_1
+
+def sk2():
+    return sk_2

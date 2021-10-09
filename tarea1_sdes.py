@@ -1,18 +1,13 @@
 import sboxes as sb
 
-def main(sk):
-    print("\n\nTrabajaremos con las siguientes s-boxes y la siguiente IP")
-    sbox_1()
-    sbox_2()
-    ip_normal()
+def main():
     ip_bits=[]
     
     #Almacenamos la ip del mensaje en una lista [paso ip(m)]
     for i in range(len(ip)):
         temp=ip.index(i+1)
         ip_bits.append(bits[temp])
-    print(ip_bits)
-    inicio(ip_bits, sk)
+    return ip_bits
     
 #Función para mostrar la sbox 1
 def sbox_1():
@@ -36,28 +31,27 @@ def sbox_2():
 def ip_normal():
     print("\nIP\n\n",ip,"\n")
     
-def inicio(ip_bits, sk):
-    #separamos la ip del mensaje en 2 partes
-    parteIzq=ip_bits[:4]
-    parteDer=ip_bits[4:]
-    print("L:\t",parteIzq)
-    print("R:\t",parteDer)    
+#Función para obtener obtener la E y realizar el xor con la sk
+def inicio_xor(ip_m, sk):
+    xor_e_sk=[]
+    parteIzq=ip_m[:4]
+    parteDer=ip_m[4:]
     
     #Alteramos la parte derecha para hacerla de 8 bits repitiendo los valores en orden inverso [paso E(R)]
     E=parteDer[::-1]+parteDer[::-1]
-    print(E)
-    xor(E, sk, ip_bits)
     
-def xor(E, sk, ip_bits):
-    xor_e_sk=[]
-    
-    #Este ciclo lo utulizamos para obtener el xor de la E con la sk
+    #ciclo para realizar el xor
     for i in range(len(sk)):
         if (sk[i]==E[i]):
             xor_e_sk.append(0)
         else:
             xor_e_sk.append(1)
-    print(xor_e_sk)
+    return xor_e_sk
+
+def inicio_sboxes(xor):
+    for i in range(len(xor)):
+        xor[i]=str(xor[i])
+    print(xor)
     
 if __name__=="__main__":
     #Almacenamos las sboxes, la ip y las sk
@@ -79,4 +73,17 @@ if __name__=="__main__":
     for i in range(len(bits)):
         bits[i]=int(bits[i])
         
-    main(sk1)
+    print("\n\nTrabajaremos con las siguientes s-boxes y la siguiente IP")
+    sbox_1()
+    sbox_2()
+    ip_normal()
+    
+    ip_m=main()
+    print("\nIP(M)")
+    print(ip_m,"\n")
+    
+    #obteniendo la E del procedimiento
+    xor=inicio_xor(ip_m,sk1)
+    print("xor\t",xor)
+    
+    inicio_sboxes(xor)
