@@ -108,7 +108,26 @@ def inicio_sboxes(xor):
     return z_p4
     
 def xor_final(z_p4, ip_m):
-    pass
+    #Separamos en 2 partes la ip del mensaje y creamos una nueva lista para almacenar el resultado del xor y tambien para almacenar la m'
+    parteIzq=ip_m[:4]
+    parteDer=ip_m[4:]
+    xor_zp4_ipm=[]
+    m_prima=[]
+    
+    #Convertimos los tipos de dato de la lista a entero para poder compararlo sin problema
+    for i in range(len(z_p4)):
+        z_p4[i]=int(z_p4[i])
+    #print(z_p4)
+    
+    #realizamos el xor de la parte izquierda del mensaje con el p4(z)
+    for i in range(len(z_p4)):
+        if z_p4[i]==parteIzq[i]:
+            xor_zp4_ipm.append(0)
+        else:
+            xor_zp4_ipm.append(1)
+    
+    m_prima=xor_zp4_ipm+parteDer
+    return m_prima
     
 if __name__=="__main__":
     #Almacenamos las sboxes, la ip y las sk
@@ -149,4 +168,4 @@ if __name__=="__main__":
     z_p4=inicio_sboxes(xor)
     print("\nP4(z)\t",z_p4,"\n")
     
-    xor_final(z_p4, ip_m)    
+    print("m':\t",xor_final(z_p4,ip_m))
