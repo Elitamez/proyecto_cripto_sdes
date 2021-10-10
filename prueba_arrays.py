@@ -1,4 +1,4 @@
-import numpy as np
+"""import numpy as np
 
 sbox=np.zeros((5,5))
 print(sbox)
@@ -13,4 +13,7 @@ print(sbox)
 print("\n")
 
 q=str(int(sbox[2][2]))
-print(q[1])
+print(q[1])"""
+x=["1","2","3"]
+
+print(x[1])

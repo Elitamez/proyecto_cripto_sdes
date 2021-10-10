@@ -137,6 +137,14 @@ def switch(m_prima):
     parte_2=m_prima[4:]
     sw_mprima=parte_2+parte_1
     return sw_mprima   
+
+def ip_inversa(m_prima_2, ip):
+    #print("\t",ip)
+    resultado=[]
+    for i in range(len(ip)):
+        temp=ip.index(i+1)
+        resultado.append(m_prima_2[temp])
+    return resultado
     
 if __name__=="__main__":
     #Almacenamos las sboxes, la ip y las sk
@@ -185,3 +193,18 @@ if __name__=="__main__":
     #Obteniendo el sw(m')
     sw_mprima=switch(m_prima)
     print("Switch (m')\t", sw_mprima)
+    
+    #Obteniendo la E de la segunda parte
+    xor2=inicio_xor(sw_mprima, sk2)
+    print("\nxor2\t",xor2)
+    
+    #Obteniendo el p4(z) de la segunda parte
+    z_p4_2=inicio_sboxes(xor2)
+    print("\nP4(z2)\t",z_p4_2,"\n")
+    
+    #Obteniendo m' de la segunda parte
+    m_prima_2=xor_final(z_p4_2, sw_mprima)
+    print("m'2\t",m_prima_2,"\n")
+    
+    resultado=ip_inversa(m_prima_2, ip)
+    print("IP_inversa(m'2):\t", resultado)
