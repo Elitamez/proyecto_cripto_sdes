@@ -207,4 +207,4 @@ if __name__=="__main__":
     print("m'2\t",m_prima_2,"\n")
     
     resultado=ip_inversa(m_prima_2, ip)
-    print("IP_inversa(m'2):\t", resultado)
+    print("IP_inversa(m'2)\t", resultado)
