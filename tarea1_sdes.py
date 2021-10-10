@@ -126,8 +126,17 @@ def xor_final(z_p4, ip_m):
         else:
             xor_zp4_ipm.append(1)
     
+    #Agregamos la parte derecha de la m para completar los 8 bits
     m_prima=xor_zp4_ipm+parteDer
     return m_prima
+
+def switch(m_prima):
+    #Creamos la lista para almacenar el switch y lo dividimos en 2 partes para invertirlas
+    sw_mprima=[]
+    parte_1=m_prima[:4]
+    parte_2=m_prima[4:]
+    sw_mprima=parte_2+parte_1
+    return sw_mprima   
     
 if __name__=="__main__":
     #Almacenamos las sboxes, la ip y las sk
@@ -165,7 +174,14 @@ if __name__=="__main__":
     xor=inicio_xor(ip_m,sk1)
     print("xor\t",xor)
     
+    #Obteniendo el p4(z)
     z_p4=inicio_sboxes(xor)
     print("\nP4(z)\t",z_p4,"\n")
     
-    print("m':\t",xor_final(z_p4,ip_m))
+    #Obteniendo m'
+    m_prima=xor_final(z_p4,ip_m)
+    print("m'\t", m_prima,"\n")
+    
+    #Obteniendo el sw(m')
+    sw_mprima=switch(m_prima)
+    print("Switch (m')\t", sw_mprima)
