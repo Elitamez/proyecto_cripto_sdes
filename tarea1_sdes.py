@@ -94,6 +94,7 @@ def inicio_sboxes(xor):
     y_der=y_der+1
     #print(y_der)
 
+    #pasrte s0(l1) y s1(r1) del jamboard
     l_1=sb1[x_izq][y_izq]
     r_1=sb2[x_der][y_der]
     
