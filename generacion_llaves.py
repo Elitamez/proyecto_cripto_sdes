@@ -40,13 +40,12 @@ for i in range(len(ls_der)):
 ps=ls_izq_2+ls_der_2
 ps_8=[]
 
-#copiamos la llave con un ciclo para poder modificar una sin alterar la otra
-for i in ps:
-    ps_8.append(i)
+#generamos la llave de 8 bits
+#orden en que debemos acomodar la llave
+posicion_llave=[6, 3, 7, 4, 8, 5, 10, 9]
 
-#quitamos 2 bits para hacerla de 8 y usarla como llave
-ps_8.pop(random.randint(0,(len(ps_8)-1)))
-ps_8.pop(random.randint(0,(len(ps_8)-1)))
+for i in posicion_llave:
+    ps_8.append(ps[i-1])
 
 #guardamos en una funcion para poder llamar la llave desde otro código
 def k1():
@@ -80,13 +79,9 @@ for i in range(len(ls2_der)):
 ps2=ls2_izq_2+ls2_der_2
 ps2_8=[]
 
-#copiamos la llave 2 con un ciclo para modificar una sin alterar la otra
-for i in ps2:
-    ps2_8.append(i)
-
-#quitamos 2 bits para hacerla de 8 y usarla como llave
-ps2_8.pop(random.randint(0, (len(ps2_8)-1)))
-ps2_8.pop(random.randint(0, (len(ps2_8)-1)))
+#generacion llave 2 de 8 bits (mismo orden)
+for i in posicion_llave:
+    ps2_8.append(ps2[i-1])
 
 def k2():
     return ps2_8
