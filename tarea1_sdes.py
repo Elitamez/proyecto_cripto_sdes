@@ -26,6 +26,11 @@ def sbox_2():
         print()
     print()
 
+#Función para mostrar las llaves generadas
+def llaves():
+    print("\nK1\n\n",sk1,"\n")
+    print("\nK2\n\n",sk2,"\n")
+
 #Funcion para la IP
 def ip_normal():
     print("\nIP\n\n",ip,"\n")
@@ -168,9 +173,10 @@ if __name__=="__main__":
     for i in range(len(m)):
         m[i]=int(m[i])
         
-    print("\n\nTrabajaremos con las siguientes s-boxes y la siguiente IP")
+    print("\n\nTrabajaremos con las siguientes s-boxes, llaves y la siguiente IP")
     sbox_1()
     sbox_2()
+    llaves()
     ip_normal()
     
     print("-----------------------------------------------------------------------")

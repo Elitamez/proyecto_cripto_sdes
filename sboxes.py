@@ -1,10 +1,12 @@
+import generacion_llaves as gl
+
 sbox=[0]
 s1=[]
 s2=[]
 p_4=[]
 ip_1=[7, 5, 3, 1, 2, 4, 6, 8]
-sk_1=[1, 0, 0, 1, 1, 1, 0, 0]
-sk_2=[1, 1, 0, 0, 0, 0, 1, 1]
+sk_1=gl.k1()
+sk_2=gl.k2()
 
 #formando las matrices
 for i in range (5):
