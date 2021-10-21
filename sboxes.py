@@ -4,9 +4,15 @@ sbox=[0]
 s1=[]
 s2=[]
 p_4=[]
+
+#orden en el que se alterará el mensaje original
 ip_1=[2, 6, 3, 1, 4, 8, 5, 7]
+
 sk_1=gl.k1()
 sk_2=gl.k2()
+
+#orden en el que se repetiran los bits de la parte derecha del ip(m)
+E_1=[4, 1, 2, 3, 2, 3, 4, 1]
 
 #formando las matrices
 for i in range (5):
@@ -97,3 +103,6 @@ def sk1():
 
 def sk2():
     return sk_2
+
+def E():
+    return E_1

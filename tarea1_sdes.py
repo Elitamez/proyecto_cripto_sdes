@@ -41,12 +41,14 @@ def inicio_xor(ip_m, sk):
     parteIzq=ip_m[:4]
     parteDer=ip_m[4:]
     
-    #Alteramos la parte derecha para hacerla de 8 bits repitiendo los valores en orden inverso [paso E(R)]
-    E=parteDer[::-1]+parteDer[::-1]
+    #Alteramos la parte derecha para hacerla de 8 bits cambiando el orden [paso E(R)]
+    E_R=[]
+    for i in E:
+        E_R.append(parteDer[i-1])
     
     #ciclo para realizar el xor
     for i in range(len(sk)):
-        if (sk[i]==E[i]):
+        if (sk[i]==E_R[i]):
             xor_e_sk.append(0)
         else:
             xor_e_sk.append(1)
@@ -59,6 +61,9 @@ def inicio_sboxes(xor):
         xor[i]=str(xor[i])
     parteIzq=xor[:4]
     parteDer=xor[4:]
+    
+    #print(parteIzq)
+    #print(parteDer)
     
     #Crearemos nuevas listas con la primera fila y columna de las sboxes para hacer la comparación
     columna_s1=[]
@@ -103,6 +108,9 @@ def inicio_sboxes(xor):
     l_1=sb1[x_izq][y_izq]
     r_1=sb2[x_der][y_der]
     
+    #print(l_1)
+    #print(r_1)
+
     z=str(l_1+r_1)
     z=list(z)
     #print(z)
@@ -119,6 +127,7 @@ def xor_final(z_p4, ip_m):
     parteDer=ip_m[4:]
     xor_zp4_ipm=[]
     m_prima=[]
+    #print(parteIzq)
     
     #Convertimos los tipos de dato de la lista a entero para poder compararlo sin problema
     for i in range(len(z_p4)):
@@ -160,6 +169,7 @@ if __name__=="__main__":
     sk1=sb.sk1()
     sk2=sb.sk2()
     p4=sb.p4()
+    E=sb.E()
     
     #se coloca primero como String para que detecte en caso de existir "0" a la izquierda
     m="0"
@@ -185,10 +195,10 @@ if __name__=="__main__":
     print("\nIP(M)")
     print(ip_m,"\n")
     
-    #obteniendo la E del procedimiento
+    #obteniendo la E(R) del procedimiento
     xor=inicio_xor(ip_m,sk1)
     print("xor\t",xor)
-    
+
     #Obteniendo el p4(z)
     z_p4=inicio_sboxes(xor)
     print("\nP4(z)\t",z_p4,"\n")

@@ -1,6 +1,7 @@
-import random
-
+#bits sobre los que se trabajarán para la generación de llaves
 j=[0, 0, 1, 0, 0, 1, 0, 1, 1, 1]
+
+#orden en el que se alterará la generación de llaves
 p10=[3, 5, 2, 7, 4, 10, 1, 9, 8, 6]
 
 
