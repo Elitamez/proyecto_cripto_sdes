@@ -1,0 +1,3 @@
+import otro
+
+print("hola")
