@@ -266,6 +266,7 @@ if __name__=="__main__":
         lista_enteros_encriptados=bytearray(lista_enteros_encriptados)
         #print(lista_enteros_encriptados)
 
+        #colocamos el nombre con el que queremos guardarla y ponemos que se ejecute como escritura binaria
         with open("imagen_encriptada.png", "wb") as f:
             f.write(lista_enteros_encriptados)
             f.close()
