@@ -1,3 +1,0 @@
-import otro
-
-print("hola")

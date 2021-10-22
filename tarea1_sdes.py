@@ -1,4 +1,5 @@
 import sboxes as sb
+import imagen_binaria as ib
 
 def main(m):
     ip_m=[]
@@ -170,58 +171,106 @@ if __name__=="__main__":
     sk2=sb.sk2()
     p4=sb.p4()
     E=sb.E()
-    
-    #se coloca primero como String para que detecte en caso de existir "0" a la izquierda
-    m="0"
-    while((len(m))!=8):
-        m=input("Inserta los 8 bits del mensaje: ")
-        
-    #Convertimos el String a una lista
-    m=list(m)
-    
-    #Con este ciclo convertimos cada valor en entero
-    for i in range(len(m)):
-        m[i]=int(m[i])
-        
-    print("\n\nTrabajaremos con las siguientes s-boxes, llaves y la siguiente IP")
-    sbox_1()
-    sbox_2()
-    llaves()
-    ip_normal()
-    
-    print("-----------------------------------------------------------------------")
-    
-    ip_m=main(m)
-    print("\nIP(M)")
-    print(ip_m,"\n")
-    
-    #obteniendo la E(R) del procedimiento
-    xor=inicio_xor(ip_m,sk1)
-    print("xor\t",xor)
+    lista_binaria=ib.lista_binaria()
 
-    #Obteniendo el p4(z)
-    z_p4=inicio_sboxes(xor)
-    print("\nP4(z)\t",z_p4,"\n")
+    opcion=0
+    print("Desea encriptar o desencriptar\n1.-Encriptar\n2.-Desencriptar\n")
+    opcion=int(input())
+
+    while(opcion!=1 and opcion!=2):
+        print("\nIngrese una opcion válida\n")
+        print("Desea encriptar o desencriptar\n1.-Encriptar\n2.-Desencriptar\n")
+        opcion=int(input())
+
+    if opcion==1:
+        print("\n\nEncriptando\n")
+        #se coloca primero como String para que detecte en caso de existir "0" a la izquierda
+        m="0"
+
+        #lista para guardar los bytes encriptados
+        lista_binaria_alterada=[]
+
+        #recorremos cada byte de la imagen y trabajamos encriptando cada uno para despues guardarlo en una lista alterna
+        for i in lista_binaria:
+            m=i
+                
+            #Convertimos el String a una lista
+            m=list(m)
+            
+            #Con este ciclo convertimos cada valor en entero
+            for i in range(len(m)):
+                m[i]=int(m[i])
+                
+            #print("\n\nTrabajaremos con las siguientes s-boxes, llaves y la siguiente IP")
+            #sbox_1()
+            #sbox_2()
+            #llaves()
+            #ip_normal()
+            
+            #print("-----------------------------------------------------------------------")
+            
+            ip_m=main(m)
+            #print("\nIP(M)")
+            #print(ip_m,"\n")
+            
+            #obteniendo la E(R) del procedimiento
+            xor=inicio_xor(ip_m,sk1)
+            #print("xor\t",xor)
+
+            #Obteniendo el p4(z)
+            z_p4=inicio_sboxes(xor)
+            #print("\nP4(z)\t",z_p4,"\n")
+            
+            #Obteniendo m'
+            m_prima=xor_final(z_p4,ip_m)
+            #print("m'\t", m_prima,"\n")
+            
+            #Obteniendo el sw(m')
+            sw_mprima=switch(m_prima)
+            #print("Switch (m')\t", sw_mprima)
+            
+            #Obteniendo la E de la segunda parte
+            xor2=inicio_xor(sw_mprima, sk2)
+            #print("\nxor2\t",xor2)
+            
+            #Obteniendo el p4(z) de la segunda parte
+            z_p4_2=inicio_sboxes(xor2)
+            #print("\nP4(z2)\t",z_p4_2,"\n")
+            
+            #Obteniendo m' de la segunda parte
+            m_prima_2=xor_final(z_p4_2, sw_mprima)
+            #print("m'2\t",m_prima_2,"\n")
+            
+            resultado=ip_inversa(m_prima_2, ip)
+            #print("IP_inversa(m'2)\t", resultado)
+
+            lista_binaria_alterada.append(resultado)
+        #print(lista_binaria_alterada)
+        
+        #convertimos a lista de enteros para poder manipularlos después y convertirlos a decimal
+        lista_enteros_encriptados=[]
+        for i in range(len(lista_binaria_alterada)):
+            valor=''
+            for j in range(len(lista_binaria_alterada[i])):
+                valor=valor+str(lista_binaria_alterada[i][j])
+            lista_enteros_encriptados.append(valor)
+        #print(lista_enteros_encriptados)
+
+        #ahora se convierte a decimal para después poder convertirlo a byte
+        for i in range(len(lista_enteros_encriptados)):
+            #se cambian de binario a decimal, se coloca el 2 para que se sepa que estaba en formato binario
+            lista_enteros_encriptados[i]=int(lista_enteros_encriptados[i],2)
+        #print(lista_enteros_encriptados)
+
+        #ahora se convierten a byte para poder convertirlo a imagen después
+        lista_enteros_encriptados=bytearray(lista_enteros_encriptados)
+        #print(lista_enteros_encriptados)
+
+        with open("imagen_encriptada.png", "wb") as f:
+            f.write(lista_enteros_encriptados)
+            f.close()
+            print("Imagen creada")
     
-    #Obteniendo m'
-    m_prima=xor_final(z_p4,ip_m)
-    print("m'\t", m_prima,"\n")
-    
-    #Obteniendo el sw(m')
-    sw_mprima=switch(m_prima)
-    print("Switch (m')\t", sw_mprima)
-    
-    #Obteniendo la E de la segunda parte
-    xor2=inicio_xor(sw_mprima, sk2)
-    print("\nxor2\t",xor2)
-    
-    #Obteniendo el p4(z) de la segunda parte
-    z_p4_2=inicio_sboxes(xor2)
-    print("\nP4(z2)\t",z_p4_2,"\n")
-    
-    #Obteniendo m' de la segunda parte
-    m_prima_2=xor_final(z_p4_2, sw_mprima)
-    print("m'2\t",m_prima_2,"\n")
-    
-    resultado=ip_inversa(m_prima_2, ip)
-    print("IP_inversa(m'2)\t", resultado)
+    if opcion==2:
+        print("\n\nDesencriptando")
+        print("Opción en desarrollo")

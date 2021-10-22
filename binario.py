@@ -31,6 +31,8 @@ with open("vaca_copia.png", "wb") as f:
     f.close()
     print("doc creado")
 
+####
+
 datos_binario=list(datos_binario)
 for i in range(len(datos_binario)):
     datos_binario[i]=format(datos_binario[i],'08b')
