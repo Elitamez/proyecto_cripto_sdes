@@ -244,6 +244,7 @@ if __name__=="__main__":
             resultado=ip_inversa(m_prima_2, ip)
             #print("IP_inversa(m'2)\t", resultado)
 
+            #llenando la lista con los binarios encriptados
             lista_binaria_alterada.append(resultado)
         #print(lista_binaria_alterada)
         
