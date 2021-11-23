@@ -1,6 +1,6 @@
 #obtenemos el código binario de la imagen
 #colocamos el nombre de la imagen que queremos usar y lo ejecutamos como lectura binaria
-with open("vaca.png", "rb") as f:
+with open("imagen_encriptada.png", "rb") as f:
     #nos lo traera como lista de bytes
     datos=f.read()
     #print(datos)
